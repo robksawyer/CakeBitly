@@ -30,19 +30,4 @@ define('bitly_clientid' , 'BITLY_CLIENT_ID');
  */
 define('bitly_secret' , 'BITLY_CLIENT_SECRET_ID');
 
-/**
- * The URI of the standard bitly v3 API.
- */
-define('bitly_api', 'http://api.bit.ly/v3/');
-
-/**
- * The URI of the bitly OAuth endpoints.
- */
-define('bitly_oauth_api', 'https://api-ssl.bit.ly/v3/');
-
-/**
- * The URI for OAuth access token requests.
- */
-define('bitly_oauth_access_token', 'https://api-ssl.bit.ly/oauth/');
-
 ?>

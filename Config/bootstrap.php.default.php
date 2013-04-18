@@ -1,5 +1,8 @@
 <?php
 /**
+* When loading the plugin, be sure to add Bitly => array('bootstrap' => true)
+*/
+/**
  * @file
  * Simple PHP library for interacting with the v3 bit.ly api (only deals with
  * JSON format, but supports new OAuth endpoints).

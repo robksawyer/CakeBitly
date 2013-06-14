@@ -11,21 +11,6 @@
  */
 
 /**
- * The URI of the standard bitly v3 API.
- */
-define('bitly_api', 'http://api.bit.ly/v3/');
-
-/**
- * The URI of the bitly OAuth endpoints.
- */
-define('bitly_oauth_api', 'https://api-ssl.bit.ly/v3/');
-
-/**
- * The URI for OAuth access token requests.
- */
-define('bitly_oauth_access_token', 'https://api-ssl.bit.ly/oauth/');
-
-/**
  * Given a longUrl, get the bit.ly shortened version.
  *
  * Example usage:
@@ -58,7 +43,7 @@ define('bitly_oauth_access_token', 'https://api-ssl.bit.ly/oauth/');
  */
 function bitly_v3_shorten($longUrl, $domain = '', $x_login = '', $x_apiKey = '') {
   $result = array();
-  $url = bitly_api . "shorten?login=" . bitlyLogin . "&apiKey=" . bitlyKey . "&format=json&longUrl=" . urlencode($longUrl);
+  $url = Configure::read('Bitly.api') . "shorten?login=" . Configure::read('Bitly.login') . "&apiKey=" . Configure::read('Bitly.key') . "&format=json&longUrl=" . urlencode($longUrl);
   if ($domain != '') {
     $url .= "&domain=" . $domain;
   }
@@ -110,7 +95,7 @@ function bitly_v3_expand($data) {
     $data = $tmp[0];
   }
   // make the call to expand
-  $url = bitly_api . "expand?login=" . bitlyLogin . "&apiKey=" . bitlyKey . "&format=json&hash=" . $data;
+  $url = Configure::read('Bitly.api') . "expand?login=" . Configure::read('Bitly.login') . "&apiKey=" . Configure::read('Bitly.key') . "&format=json&hash=" . $data;
   $output = json_decode(bitly_get_curl($url));
   if (isset($output->{'data'}->{'expand'})) {
     foreach ($output->{'data'}->{'expand'} as $tmp) {
@@ -140,7 +125,7 @@ function bitly_v3_expand($data) {
  */
 function bitly_v3_validate($x_login, $x_apiKey) {
   $result = 0;
-  $url = bitly_api . "validate?login=" . bitlyLogin . "&apiKey=" . bitlyKey . "&format=json&x_login=" . $x_login . "&x_apiKey=" . $x_apiKey;
+  $url = Configure::read('Bitly.api') . "validate?login=" . Configure::read('Bitly.login') . "&apiKey=" . Configure::read('Bitly.key') . "&format=json&x_login=" . $x_login . "&x_apiKey=" . $x_apiKey;
   $output = json_decode(bitly_get_curl($url));
   if (isset($output->{'data'}->{'valid'})) {
     $result = $output->{'data'}->{'valid'};
@@ -184,7 +169,7 @@ function bitly_v3_clicks($data) {
     $tmp = array_reverse($tmp);
     $data = $tmp[0];
   }
-  $url = bitly_api . "clicks?login=" . bitlyLogin . "&apiKey=" . bitlyKey . "&format=json&hash=" . $data;
+  $url = Configure::read('Bitly.api') . "clicks?login=" . Configure::read('Bitly.login') . "&apiKey=" . Configure::read('Bitly.key') . "&format=json&hash=" . $data;
   $output = json_decode(bitly_get_curl($url));
   if (isset($output->{'data'}->{'clicks'})) {
     foreach ($output->{'data'}->{'clicks'} as $tmp) {
@@ -227,7 +212,7 @@ function bitly_v3_referrers($data) {
   $tmp = explode('/', $data);
   $tmp = array_reverse($tmp);
   $data = $tmp[0];
-  $url = bitly_api . "referrers?login=" . bitlyLogin . "&apiKey=" . bitlyKey . "&format=json&hash=" . $data;
+  $url = Configure::read('Bitly.api') . "referrers?login=" . Configure::read('Bitly.login') . "&apiKey=" . Configure::read('Bitly.key') . "&format=json&hash=" . $data;
   $output = json_decode(bitly_get_curl($url));
   if (isset($output->{'data'}->{'referrers'})) {
     $results['created_by'] = $output->{'data'}->{'created_by'};
@@ -273,7 +258,7 @@ function bitly_v3_countries($data) {
   $tmp = explode('/', $data);
   $tmp = array_reverse($tmp);
   $data = $tmp[0];
-  $url = bitly_api . "countries?login=" . bitlyLogin . "&apiKey=" . bitlyKey . "&format=json&hash=" . $data;
+  $url = Configure::read('Bitly.api') . "countries?login=" . Configure::read('Bitly.login') . "&apiKey=" . Configure::read('Bitly.key') . "&format=json&hash=" . $data;
   $output = json_decode(bitly_get_curl($url));
   if (isset($output->{'data'}->{'countries'})) {
     $results['created_by'] = $output->{'data'}->{'created_by'};
@@ -327,7 +312,7 @@ function bitly_v3_clicks_by_minute($data) {
     $tmp = array_reverse($tmp);
     $data = $tmp[0];
   }
-  $url = bitly_api . "clicks_by_minute?login=" . bitlyLogin . "&apiKey=" . bitlyKey . "&format=json&hash=" . $data;
+  $url = Configure::read('Bitly.api') . "clicks_by_minute?login=" . Configure::read('Bitly.login') . "&apiKey=" . Configure::read('Bitly.key') . "&format=json&hash=" . $data;
   $output = json_decode(bitly_get_curl($url));
   if (isset($output->{'data'}->{'clicks_by_minute'})) {
     foreach ($output->{'data'}->{'clicks_by_minute'} as $tmp) {
@@ -380,7 +365,7 @@ function bitly_v3_clicks_by_day($data, $days = 7) {
     $tmp = array_reverse($tmp);
     $data = $tmp[0];
   }
-  $url = bitly_api . "clicks_by_day?login=" . bitlyLogin . "&apiKey=" . bitlyKey . "&format=json&days=" . $days . "&hash=" . $data;
+  $url = Configure::read('Bitly.api') . "clicks_by_day?login=" . Configure::read('Bitly.login') . "&apiKey=" . Configure::read('Bitly.key') . "&format=json&days=" . $days . "&hash=" . $data;
   $output = json_decode(bitly_get_curl($url));
   if (isset($output->{'data'}->{'clicks_by_day'})) {
     foreach ($output->{'data'}->{'clicks_by_day'} as $tmp) {
@@ -419,7 +404,7 @@ function bitly_v3_clicks_by_day($data, $days = 7) {
  */
 function bitly_v3_bitly_pro_domain($domain) {
   $result = array();
-  $url = bitly_api . "bitly_pro_domain?login=" . bitlyLogin . "&apiKey=" . bitlyKey . "&format=json&domain=" . $domain;
+  $url = Configure::read('Bitly.api') . "bitly_pro_domain?login=" . Configure::read('Bitly.login') . "&apiKey=" . Configure::read('Bitly.key') . "&format=json&domain=" . $domain;
   $output = json_decode(bitly_get_curl($url));
   if (isset($output->{'data'}->{'bitly_pro_domain'})) {
     $result['domain'] = $output->{'data'}->{'domain'};
@@ -456,7 +441,7 @@ function bitly_v3_lookup($data) {
   } else {
     $data = urlencode($data);
   }
-  $url = bitly_api . "lookup?login=" . bitlyLogin . "&apiKey=" . bitlyKey . "&format=json&url=" . $data;
+  $url = Configure::read('Bitly.api') . "lookup?login=" . Configure::read('Bitly.login') . "&apiKey=" . Configure::read('Bitly.key') . "&format=json&url=" . $data;
   $output = json_decode(bitly_get_curl($url));
   if (isset($output->{'data'}->{'lookup'})) {
     foreach ($output->{'data'}->{'lookup'} as $tmp) {
@@ -490,10 +475,10 @@ function bitly_v3_lookup($data) {
  */
 function bitly_v3_authenticate($x_login, $x_password) {
   $result = array();
-  $url = bitly_api . "authenticate";
+  $url = Configure::read('Bitly.api') . "authenticate";
   $params = array();
-  $params['login'] = bitlyLogin;
-  $params['apiKey'] = bitlyKey;
+  $params['login'] = Configure::read('Bitly.login');
+  $params['apiKey'] = Configure::read('Bitly.key');
   $params['format'] = "json";
   $params['x_login'] = $x_login;
   $params['x_password'] = $x_password;
@@ -541,7 +526,7 @@ function bitly_v3_info($data) {
     $data = $tmp[0];
   }
   // make the call to expand
-  $url = bitly_api . "info?login=" . bitlyLogin . "&apiKey=" . bitlyKey . "&format=json&hash=" . $data;
+  $url = Configure::read('Bitly.api') . "info?login=" . Configure::read('Bitly.login') . "&apiKey=" . Configure::read('Bitly.key') . "&format=json&hash=" . $data;
   $output = json_decode(bitly_get_curl($url));
   if (isset($output->{'data'}->{'info'})) {
     foreach ($output->{'data'}->{'info'} as $tmp) {
@@ -576,10 +561,10 @@ function bitly_v3_info($data) {
  */
 function bitly_oauth_access_token($code, $redirect) {
   $results = array();
-  $url = bitly_oauth_access_token . "access_token";
+  $url = Configure::read('Bitly.oauth_access_token_endpoint') . "access_token";
   $params = array();
-  $params['client_id'] = bitly_clientid;
-  $params['client_secret'] = bitly_secret;
+  $params['client_id'] = Configure::read('Bitly.client_id');
+  $params['client_secret'] = Configure::read('Bitly.client_secret');
   $params['code'] = $code;
   $params['redirect_uri'] = $redirect;
   $output = bitly_post_curl($url, $params);
@@ -614,7 +599,7 @@ function bitly_oauth_access_token($code, $redirect) {
 function bitly_v3_user_clicks($access_token, $days = 7) {
   // $results = bitly_v3_user_clicks('BITLY_SUPPLIED_ACCESS_TOKEN');
   $results = array();
-  $url = bitly_oauth_api . "user/clicks?access_token=" . $access_token . "&days=" . $days;
+  $url = Configure::read('Bitly.oauth_api') . "user/clicks?access_token=" . $access_token . "&days=" . $days;
   $output = json_decode(bitly_get_curl($url));
   if (isset($output->{'data'}->{'clicks'})) {
     $results['days'] = $output->{'data'}->{'days'};

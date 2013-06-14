@@ -14,23 +14,21 @@
  */
 
 /**
- * The bitlyKey assigned to your bit.ly account. (http://bit.ly/a/account)
+ * Required configuration variables
  */
-define('bitlyKey', 'R_BITLY_KEY');
+$bitly = array(
+	'Bitly' => array(
+		'api' => 'http://api.bit.ly/v3/', //The URI of the standard bitly v3 API.
+		'oauth_api' => 'https://api-ssl.bit.ly/v3/', //The URI of the bitly OAuth endpoints.
+		'oauth_access_token_endpoint' => 'https://api-ssl.bit.ly/oauth/', //The URI for OAuth access token requests.
+		'key' => getenv('BITLY_KEY'), //The bitlyKey assigned to your bit.ly account. (http://bit.ly/a/account)
+		'login' => getenv('BITLY_LOGIN'), //The bitlyLogin assigned to your bit.ly account. (http://bit.ly/a/account)
+		'client_id' => getenv('BITLY_CLIENT_ID'), //The client_id assigned to your OAuth app. (http://bit.ly/a/account)
+		'client_secret' => getenv('BITLY_CLIENT_SECRET') //The client_secret assigned to your OAuth app. (http://bit.ly/a/account)
+	)
+);
 
-/**
- * The bitlyLogin assigned to your bit.ly account. (http://bit.ly/a/account)
- */
-define('bitlyLogin' , 'o_bitlyLogin');
-
-/**
- * The client_id assigned to your OAuth app. (http://bit.ly/a/account)
- */
-define('bitly_clientid' , 'BITLY_CLIENT_ID');
-
-/**
- * The client_secret assigned to your OAuth app. (http://bit.ly/a/account)
- */
-define('bitly_secret' , 'BITLY_CLIENT_SECRET_ID');
+Configure::write('Bitly', $bitly);
+?>
 
 ?>

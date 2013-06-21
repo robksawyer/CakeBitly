@@ -42,7 +42,6 @@
  * @see http://code.google.com/p/bitly-api/wiki/ApiDocumentation#/v3/shorten
  */
 function bitly_v3_shorten($longUrl, $domain = '', $x_login = '', $x_apiKey = '') {
-  debug(Configure::read('Bitly.api'));
   $result = array();
   $url = Configure::read('Bitly.api') . "shorten?login=" . Configure::read('Bitly.login') . "&apiKey=" . Configure::read('Bitly.key') . "&format=json&longUrl=" . urlencode($longUrl);
   if ($domain != '') {
